@@ -39,11 +39,20 @@ get('/dealerships/:id/vehicles/new') do
     erb(:dealership_vehicles_form)
 end
 
+
+get('/vehicles') do
+  @vehicles = Vehicle.all()
+  erb(:vehicles)
+end
+
 post('/vehicles') do
   make = params.fetch('make')
   model = params.fetch('model')
   year = params.fetch('year')
-  @vehicle = Vehicle.new(make, model, year)
+  color = params.fetch('color')
+  engine_size = params.fetch('engine_size')
+  number_of_doors = params.fetch('number_of_doors')
+  @vehicle = Vehicle.new({make: make, model: model, year: year, color: color, engine_size: engine_size, number_of_doors: number_of_doors})
   @vehicle.save()
   @dealership = Dealership.find(params.fetch('dealership_id').to_i())
   @dealership.add_vehicle(@vehicle)
